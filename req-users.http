@@ -1,0 +1,50 @@
+// REINICIE A APLICAÇÃO
+// CRIE UM USUÁRIO
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+	"name": "Genoveva",
+	"email": "genoveva@email.com",
+	"password": "12345+A"
+}
+###
+
+// LOG COM UM USER 
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+	"email": "genoveva@email.com",
+	"password": "12345+A"
+}
+###
+
+//COM TOKEN INVALIDO
+GET http://localhost:3000/users
+Authorization: Barer qualquercoisaqui
+###
+
+//COM TOKEN DE USER
+//COPIE O TOKEN RECEBIDO
+GET http://localhost:3000/users
+Authorization: Barer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MDdjZWI0LTUwOTAtNDEwOC05NmQ0LWY5MjUyNzNjOWJlMyIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzQ4MzY1MDMwLCJleHAiOjE3NDgzNjg2MzB9.7neK_f68fynGCVSrUIm7SL2HEDu_CB3T7jnOaIgJpXU
+###
+
+//LOGIN COM ADMIN
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+	"email": "elesbao@email.com",
+	"password": "123456"
+}
+###
+
+//COM TOKEN DE AMIN
+//COPIE O TOKEN RECEBIDO
+GET http://localhost:3000/users
+Authorization: Barer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3YWZhNzE5LWNjYWQtNDMwOC1iOWQ0LWY4ZjQ5ZTY2OWYyMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0ODM2NTA4NywiZXhwIjoxNzQ4MzY4Njg3fQ.c2oykzyHQVSLqoaCYXU-OEx8ToUvSDV7jax1mv54msY
+###
+
+// CRIE TESTES PARA AS DEMAIS ROTAS

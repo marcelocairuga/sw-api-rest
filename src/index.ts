@@ -1,15 +1,14 @@
 import express, { Request, Response } from 'express';
-import dotenv from 'dotenv';
 import { errorHandler } from './middlewares/error-handler';
 import { authenticate, authorizeAdmin } from './middlewares/auth';
 import authRoutes from "./routes/auth-routes";
 import usersRoutes from "./routes/users-routes";
-
-dotenv.config();
+import helmet from 'helmet';
+import { PORT } from './config/env';
 
 const app = express();
-const port = process.env.PORT || 3000;
 
+app.use(helmet())
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
@@ -22,6 +21,6 @@ app.use("/users", authenticate, authorizeAdmin, usersRoutes);
 
 app.use(errorHandler);
 
-app.listen(port, () => {
-  console.log(`API rodando em http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`API rodando em http://localhost:${PORT}`);
 });

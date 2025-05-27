@@ -1,17 +1,17 @@
+import { BadRequestError } from "../errors/bad-request-error";
 import { ConflictError } from "../errors/conflict-error";
 import { NotFoundError } from "../errors/not-found-error";
 import { UnauthorizedError } from "../errors/unauthorized-error";
-import { User, UserRole } from "../models/user";
+import { User } from "../models/user";
 import { UsersRepository } from "../repositories/users-repository";
 import { hashPassword, comparePassword, generateToken } from "../utils/jwt";
+import { createUserSchema, updateUserSchema } from "../schemas/users-schema";
+import { z } from "zod";
 
-interface CreateUserData {
-   name: string,
-   email: string,
-   password: string
-}
+type createUserData = z.infer<typeof createUserSchema>;
+type updateUserData = z.infer<typeof updateUserSchema>;
 
-interface Credentials {
+type Credentials = {
    email: string,
    password: string
 } 
@@ -26,7 +26,9 @@ export class UsersService {
       this.repository = new UsersRepository();
    }
 
-   async create({name, email, password}: CreateUserData, role: UserRole = "user"): Promise<UserWithoutPassword> {
+   async create(data: createUserData): Promise<UserWithoutPassword> {
+      const {name, email, password, role} = data;
+
       const userWithSameEmail = await this.repository.findByEmail(email);
       if (userWithSameEmail) throw new ConflictError("E-mail already in use.");
       const created = await this.repository.create({
@@ -57,21 +59,20 @@ export class UsersService {
       return userWithoutPassword;
    }
 
-   async update(id: string, userData: Partial<User>): Promise<UserWithoutPassword> {
-
+   async update(id: string, data: updateUserData): Promise<UserWithoutPassword> {
       const user = await this.repository.findById(id);
       if (!user) throw new NotFoundError("User not found.");
 
-      if (userData.email && userData.email !== user.email) {
-         const userWithSameEmail = await this.repository.findByEmail(userData.email);
+      if (data.email && data.email !== user.email) {
+         const userWithSameEmail = await this.repository.findByEmail(data.email);
          if (userWithSameEmail) throw new ConflictError("E-mail already in use.");
       } 
 
-      if (userData.password) {
-         userData.password = hashPassword(userData.password)
+      if (data.password) {
+         data.password = hashPassword(data.password)
       }
 
-      const updated = await this.repository.update(id, userData);
+      const updated = await this.repository.update(id, data);
       const { password, ...userWithoutPassword } = updated;
       return userWithoutPassword;
     }

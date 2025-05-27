@@ -1,0 +1,43 @@
+// TENTAR SE REGISTRAR COM EMAIL ERRADO
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+	"name": "Genoveva",
+	"email": "genoveva@emailcom",
+	"password": "12345+A"
+}
+###
+
+// TENTAR SE REGISTRAR COM SENHA FORA DO PADRÃO
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+	"name": "Genoveva",
+	"email": "genoveva@email.com",
+	"password": "12345"
+}
+###
+
+// REGISTRO CORRETO
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+	"name": "Genoveva",
+	"email": "genoveva@email.com",
+	"password": "12345+A"
+}
+###
+
+// TENTAR REGISTRAR COM EMAIL EXISTENTE
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+	"name": "Raoni",
+	"email": "genoveva@email.com",
+	"password": "12345+A"
+}
+###

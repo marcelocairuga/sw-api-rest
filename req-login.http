@@ -1,0 +1,50 @@
+// REINICIE A APLICAÇÃO
+// CRIE UM USUÁRIO
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+	"name": "Genoveva",
+	"email": "genoveva@email.com",
+	"password": "12345+A"
+}
+###
+
+// TENTAR LOGAR SEM SENHA
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+	"email": "genoveva@emailcom"
+}
+###
+
+// TENTAR LOGAR SEM EMAIL
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+	"password": "12345"
+}
+###
+
+// LOGAR COM JSON MAL FORMADO
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+   "email": "genoveva@email.com"
+	"password": "12345"
+}
+###
+
+// LOGIN CORRETO PARA USER 
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+	"email": "genoveva@email.com",
+	"password": "12345+A"
+}
+###
+
