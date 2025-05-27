@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { errorHandler } from './middlewares/error-handler';
+import { authenticate, authorizeAdmin } from './middlewares/auth';
 import authRoutes from "./routes/auth-routes";
 import usersRoutes from "./routes/users-routes";
 
@@ -17,7 +18,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/auth", authRoutes);
 
-app.use("/users", usersRoutes);
+app.use("/users", authenticate, authorizeAdmin, usersRoutes);
 
 app.use(errorHandler);
 

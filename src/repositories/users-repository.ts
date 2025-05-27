@@ -6,7 +6,7 @@ export class UsersRepository {
       id: "27afa719-ccad-4308-b9d4-f8f49e669f21",
       name: "Elesbão",
       email: "elesbao@email.com",
-      password: "$2b$10$rInHVPTdFk7MBtaQrradiO3B0BmQJK4PSt.V5cMn7hhRU8J5CtsPG",
+      password: "$2b$10$KTgbAyvO3xlm0S37cNDnNOAPNJkjlJB.mWuNfnAklSLjnhLXJIzNq",
       role: "admin"
    }];
 
