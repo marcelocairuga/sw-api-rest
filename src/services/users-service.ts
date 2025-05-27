@@ -23,9 +23,10 @@ export class UsersService {
       this.repository = new UsersRepository();
    }
 
-   create({name, email, password}: CreateUserData, role: UserRole = "user"): Partial<User> {
-      if (this.repository.findByEmail(email)) throw new ConflictError("E-mail already in use.");
-      const user = this.repository.create({
+   async create({name, email, password}: CreateUserData, role: UserRole = "user"): Promise<Partial<User>> {
+      const userWithSameEmail = await this.repository.findByEmail(email);
+      if (userWithSameEmail) throw new ConflictError("E-mail already in use.");
+      const user = await this.repository.create({
          name, 
          email, 
          password: hashPassword(password), 
@@ -40,8 +41,8 @@ export class UsersService {
       }
    }
 
-   autenticate(credentials: Credentials): string {
-      const user = this.repository.findByEmail(credentials.email);
+   async autenticate(credentials: Credentials): Promise<string> {
+      const user = await this.repository.findByEmail(credentials.email);
       if (!user || !comparePassword(credentials.password, user.password)) 
          throw new UnauthorizedError("Invalid credentials.")
       return generateToken(user);

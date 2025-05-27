@@ -9,17 +9,17 @@ export class AuthController {
       this.service = new UsersService();
    }
 
-   register(req: Request, res: Response): Response {
+   async register(req: Request, res: Response): Promise<Response> {
       const { name, email, password } = req.body;
       // falta validação
-      const user = this.service.create({name, email, password});
+      const user = await this.service.create({name, email, password});
       return res.status(201).json({ user });
    }
 
-   login(req: Request, res: Response): Response {
+   async login(req: Request, res: Response): Promise<Response> {
       const { email, password } = req.body;
       // falta validação
-      const token = this.service.autenticate({email, password});
+      const token = await this.service.autenticate({email, password});
       return res.json({ token });
     }
 }
