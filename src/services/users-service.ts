@@ -1,9 +1,8 @@
-import { BadRequestError } from "../errors/bad-request-error";
 import { ConflictError } from "../errors/conflict-error";
 import { NotFoundError } from "../errors/not-found-error";
 import { UnauthorizedError } from "../errors/unauthorized-error";
 import { User } from "../models/user";
-import { UsersRepository } from "../repositories/users-repository";
+import { IUsersRepository } from "../repositories/users-repository.interface";
 import { hashPassword, comparePassword, generateToken } from "../utils/jwt";
 import { createUserSchema, updateUserSchema } from "../schemas/users-schema";
 import { z } from "zod";
@@ -20,10 +19,10 @@ type UserWithoutPassword = Omit<User, "password">;
 
 export class UsersService {
 
-   private repository: UsersRepository;
+   private repository: IUsersRepository;
 
-   constructor() {
-      this.repository = new UsersRepository();
+   constructor(repository: IUsersRepository) {
+      this.repository = repository;
    }
 
    async create(data: createUserData): Promise<UserWithoutPassword> {
@@ -55,6 +54,7 @@ export class UsersService {
    async getById(id: string): Promise<UserWithoutPassword|null> {
       const user = await this.repository.findById(id);
       if (!user) throw new NotFoundError("User not found.");
+
       const { password, ...userWithoutPassword } = user;
       return userWithoutPassword;
    }
@@ -73,15 +73,16 @@ export class UsersService {
       }
 
       const updated = await this.repository.update(id, data);
+
       const { password, ...userWithoutPassword } = updated;
       return userWithoutPassword;
     }
 
-    async delete(id: string): Promise<UserWithoutPassword> {
-      const deleted = await this.repository.delete(id);
+   async delete(id: string): Promise<UserWithoutPassword> {      
+      const deleted = await this.repository.delete(id);  
       const { password, ...userWithoutPassword } = deleted;
       return userWithoutPassword;
-    }
+   }
 
    async autenticate(credentials: Credentials): Promise<string> {
       const user = await this.repository.findByEmail(credentials.email);

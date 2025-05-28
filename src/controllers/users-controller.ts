@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
 import { UsersService } from '../services/users-service';
 import { createUserSchema, updateUserSchema } from '../schemas/users-schema';
-import { BadRequestError } from '../errors/bad-request-error';
+import { usersService } from '../container';
 
 export class UsersController {
 
    private service: UsersService;
 
    constructor() {
-      this.service = new UsersService();
+      this.service = usersService;
    }
 
    async getAll(req: Request, res: Response): Promise<Response> {

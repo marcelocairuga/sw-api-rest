@@ -1,13 +1,14 @@
 import { Request, Response } from 'express';
 import { UsersService } from '../services/users-service';
 import { registerUserSchema } from '../schemas/users-schema';
+import { usersService } from '../container';
 
 export class AuthController {
 
    private service: UsersService;
 
    constructor() {
-      this.service = new UsersService();
+      this.service = usersService;
    }
 
    async register(req: Request, res: Response): Promise<Response> {

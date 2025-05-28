@@ -4,7 +4,7 @@ import { authenticate, authorizeAdmin } from './middlewares/auth';
 import authRoutes from "./routes/auth-routes";
 import usersRoutes from "./routes/users-routes";
 import helmet from 'helmet';
-import { PORT } from './config/env';
+import { env } from './config/env';
 
 const app = express();
 
@@ -21,6 +21,6 @@ app.use("/users", authenticate, authorizeAdmin, usersRoutes);
 
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`API rodando em http://localhost:${PORT}`);
+app.listen(env.PORT, () => {
+  console.log(`API rodando em http://localhost:${env.PORT}`);
 });
