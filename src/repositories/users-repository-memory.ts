@@ -1,6 +1,6 @@
 import { NotFoundError } from "../errors/not-found-error";
 import { User } from "../models/user";
-import { IUsersRepository } from "./users-repository.interface";
+import { IUsersRepository } from "./users-repository-interface";
 import { hashPassword } from "../utils/jwt";
 
 export class UsersRepository implements IUsersRepository {

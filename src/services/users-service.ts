@@ -2,7 +2,7 @@ import { ConflictError } from "../errors/conflict-error";
 import { NotFoundError } from "../errors/not-found-error";
 import { UnauthorizedError } from "../errors/unauthorized-error";
 import { User } from "../models/user";
-import { IUsersRepository } from "../repositories/users-repository.interface";
+import { IUsersRepository } from "../repositories/users-repository-interface";
 import { hashPassword, comparePassword, generateToken } from "../utils/jwt";
 import { createUserSchema, updateUserSchema } from "../schemas/users-schema";
 import { z } from "zod";
